@@ -1,0 +1,40 @@
+# Python bytecode and cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local virtual environments
+venv/
+.venv/
+
+
+# Git metadata
+.git/
+.gitignore
+
+# Testing and coverage reports
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE and Editor configs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Docker build files (optional but keeps context clean)
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+###
+.python-version
+
+###
+README.md
