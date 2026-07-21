@@ -59,7 +59,7 @@ async def application_logger(log_type="file", level=logging.DEBUG):
         if log_type == 'file':
             log_file_name = await create_log_file_name()
             if log_file_name is not None:
-                file_logger = RotatingFileHandler(log_file_name, mode="a", encoding="utf-8", maxBytes=10000,
+                file_logger = RotatingFileHandler(log_file_name, mode="a", encoding="utf-8", maxBytes=4000000,
                                                   backupCount=3)
                 file_logger.setFormatter(await get_formatter())
                 logger.addHandler(file_logger)
