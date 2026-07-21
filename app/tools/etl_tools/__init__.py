@@ -8,6 +8,7 @@ from app.services.csv_etl.process import (countries_by_all_regions,
                                           population_area_coastline_all_regions,
                                           calculate_country_demographic)
 from app.services.json_etl.process import get_university_names, get_universities_fees_less_than
+from app.utils.app_exception_handler import ApplicationException
 from app.utils.applogger import logger
 
 
@@ -18,10 +19,13 @@ def get_all_countries():
     get all countries
     :return:
     """
-    logger.info(f"calling from get_all_countries -> countries_by_all_regions")
-    _result = countries_by_all_regions()
-    # print(f"All Country names -> {_result}")
-    return _result
+    try:
+        logger.info(f"calling from get_all_countries -> countries_by_all_regions")
+        _result = countries_by_all_regions()
+        # print(f"All Country names -> {_result}")
+        return _result
+    except ApplicationException as e:
+        raise ApplicationException(status_code=500, detail=f"{e}")
 
 
 @tool(description="countries in region e.g. america, Asia")
@@ -32,11 +36,14 @@ def fetch_countries_region(region: str):
             list all countries in america
             countries in Asia
     """
-    logger.info(f"user query  region name {region}")
-    logger.info(f"calling from get_countries_by_region -> countries_by_region_name")
-    _result = countries_by_region_name(region_name=region.upper())
-    # print(f"countries by region names -> {_result}")
-    return _result
+    try:
+        logger.info(f"user query  region name {region}")
+        logger.info(f"calling from get_countries_by_region -> countries_by_region_name")
+        _result = countries_by_region_name(region_name=region.upper())
+        # print(f"countries by region names -> {_result}")
+        return _result
+    except ApplicationException as e:
+        raise ApplicationException(status_code=500, detail=f"{e}")
 
 
 @tool(description="get the population and coastline data for all regions")
@@ -45,10 +52,13 @@ def get_population_coastlines_by_region():
     this function will return the population and coastline data for all regions.
     :return:
     """
-    logger.info(f"calling from get_population_coastlines_by_region -> population_area_coastline_all_regions")
-    _result = population_area_coastline_all_regions()
-    # print(f"get population and coastline by region  -> {_result}")
-    return _result
+    try:
+        logger.info(f"calling from get_population_coastlines_by_region -> population_area_coastline_all_regions")
+        _result = population_area_coastline_all_regions()
+        # print(f"get population and coastline by region  -> {_result}")
+        return _result
+    except ApplicationException as e:
+        raise ApplicationException(status_code=500, detail=f"{e}")
 
 
 @tool(description="get the country demographic based on country name")
@@ -61,11 +71,14 @@ def calculate_demographic(country_name: str):
            calculate the agriculture, industry, service values of a country
            calculate the agriculture, industry, service values of a country
     """
-    logger.info(f"user query  country name {country_name}")
-    logger.info(f"calling from calculate_demographic -> calculate_country_demographic")
-    _result = calculate_country_demographic(country_name=country_name.lower().title())
-    # print(f"calculated country demographic data is -> {_result}")
-    return _result
+    try:
+        logger.info(f"user query  country name {country_name}")
+        logger.info(f"calling from calculate_demographic -> calculate_country_demographic")
+        _result = calculate_country_demographic(country_name=country_name.lower().title())
+        # print(f"calculated country demographic data is -> {_result}")
+        return _result
+    except ApplicationException as e:
+        raise ApplicationException(status_code=500, detail=f"{e}")
 
 
 ###############
@@ -74,10 +87,13 @@ def get_universities():
     """
      get all university names private and public.
     """
-    logger.info(f"user query  university names")
-    _result = get_university_names()
-    # print(f"All university names {_result}")
-    return _result
+    try:
+        logger.info(f"user query  university names")
+        _result = get_university_names()
+        # print(f"All university names {_result}")
+        return _result
+    except ApplicationException as e:
+        raise ApplicationException(status_code=500, detail=f"{e}")
 
 
 @tool(description="get the universities and their fees less than the price given.")
@@ -86,11 +102,14 @@ def get_university_fess_less_than_price_given(fees_price):
     this tool will return the university names and their respective fees-price
     less than the price given.
     """
-    logger.info(f"user query  fees {fees_price}")
-    logger.info(f"get_university_fess_less_than_price_given")
-    _result = get_universities_fees_less_than(fees_price)
-    # print(f"University fees less than {fees_price} is -> {_result}")
-    return _result
+    try:
+        logger.info(f"user query  fees {fees_price}")
+        logger.info(f"get_university_fess_less_than_price_given")
+        _result = get_universities_fees_less_than(fees_price)
+        # print(f"University fees less than {fees_price} is -> {_result}")
+        return _result
+    except ApplicationException as e:
+        raise ApplicationException(status_code=500, detail=f"{e}")
 
 
 def get_etl_tools():

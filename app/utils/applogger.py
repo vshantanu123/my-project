@@ -52,9 +52,7 @@ async def application_logger(log_type="file", level=logging.DEBUG):
     :param level: log level (default=DEBUG).
     :return: logger with configuration.
     """
-
     try:
-        # os.makedirs("./logs/", exist_ok=True)
         global logger
         global stream_handler, file_logger
         logger.setLevel(level)

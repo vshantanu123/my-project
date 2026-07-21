@@ -1,10 +1,9 @@
+from fastapi import Request, status
 from fastapi.exception_handlers import request_validation_exception_handler, http_exception_handler
 from fastapi.exceptions import HTTPException as StarletteHTTPException
 from fastapi.exceptions import RequestValidationError
-from fastapi import Request, status
 from fastapi.responses import JSONResponse
-
-from main import app
+from app import app as fastapi_app
 
 
 class ApplicationException(Exception):
@@ -16,7 +15,7 @@ class ApplicationException(Exception):
         self.detail = detail
 
 
-@app.exception_handler(ApplicationException)
+@fastapi_app.exception_handler(ApplicationException)
 async def custom_exception_handler(request: Request, exc: ApplicationException):
     return JSONResponse(
         status_code=status.exc.status_code,
@@ -24,7 +23,7 @@ async def custom_exception_handler(request: Request, exc: ApplicationException):
     )
 
 
-@app.exception_handler(RequestValidationError)
+@fastapi_app.exception_handler(RequestValidationError)
 async def custom_validation_exception_handler(request, exc):
     """
 
@@ -35,7 +34,7 @@ async def custom_validation_exception_handler(request, exc):
     return await request_validation_exception_handler(request, exc)
 
 
-@app.exception_handler(StarletteHTTPException)
+@fastapi_app.exception_handler(StarletteHTTPException)
 async def custom_http_exception_handler(request, exc):
     """
     :param request:
@@ -45,7 +44,7 @@ async def custom_http_exception_handler(request, exc):
     return await http_exception_handler(request, exc)
 
 
-@app.exception_handler(Exception)
+@fastapi_app.exception_handler(Exception)
 async def global_unhandled_exception_handler(request: Request, exc: Exception):
     # Place production logger here (e.g., logging.exception(exc))
     return JSONResponse(

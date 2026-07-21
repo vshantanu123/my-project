@@ -1,6 +1,7 @@
 from langchain.tools import tool
 
 from app.services.mpg_prediction.mpg_prediction import predict_mileage
+from app.utils.app_exception_handler import ApplicationException
 from app.utils.applogger import logger
 
 
@@ -20,4 +21,9 @@ def predict_mpg(displacement, horsepower, weight):
 
 
 def get_ml_tools():
-    return [predict_mpg]
+    try:
+        logger.info(f"calling get_ml_tools")
+        return [predict_mpg]
+    except Exception as e:
+        logger.exception(f"error in get_ml_tools {e}")
+        raise ApplicationException(status_code=500, detail="error in get_ml_tools")

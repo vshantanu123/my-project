@@ -2,10 +2,13 @@ import os
 
 from langchain_openai import ChatOpenAI
 
-from app.utils import get_value_from_key
+from app.utils.app_exception_handler import ApplicationException
 
 
 def open_ai_llm():
-    _llm = ChatOpenAI(model="gpt-5.4-mini", temperature=0, streaming=True,
-                      api_key=get_value_from_key("OPENAI_API_KEY"))
-    return _llm
+    try:
+        os.environ["OPENAI_API_KEY"] = str(os.getenv("OPENAI_API_KEY"))
+        _llm = ChatOpenAI(model="gpt-5.4-mini", temperature=0, streaming=True)
+        return _llm
+    except Exception as e:
+        raise ApplicationException(status_code=500, detail=f"{e}")

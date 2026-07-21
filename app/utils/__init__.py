@@ -1,4 +1,5 @@
 from decouple import RepositoryEnv, Config
+from fastapi.exceptions import HTTPException
 
 from app.models import Constants
 
@@ -14,7 +15,7 @@ def get_message_from_key(key: str):
         message_string = config.get(key, cast=str)
         return message_string
     except Exception as e:
-        print("Error while getting message value ", e)
+        raise HTTPException(status_code=500, detail=f"Error while getting message string for key {key}")
 
 
 def get_value_from_key(key: str):
@@ -28,4 +29,4 @@ def get_value_from_key(key: str):
         value = config.get(key, cast=str)
         return value
     except Exception as e:
-        print("Error while getting key value", e)
+        raise HTTPException(status_code=500, detail=f"Error while getting message string for key {key}")

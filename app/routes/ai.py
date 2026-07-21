@@ -21,4 +21,4 @@ def ask(inputs: InputModel) -> Iterable[Any]:
         #                          headers={"X-Accel-Buffering": "no"})
     except Exception as e:
         logger.exception(f"error in fetching answers {e}")
-        raise HTTPException(status_code=500, detail=f"no answers found")
+        raise HTTPException(status_code=500, detail=f"error: no answers found")

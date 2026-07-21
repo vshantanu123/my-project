@@ -23,7 +23,7 @@ def call_this_api_for_all_your_answers(questions: list):
                 token, meta_data = chunk
                 if token.content and len(token.content) > 0:
                     yield from token.content
-        yield "done"
+        yield "\n\n Done \n\n"
 
     except Exception as e:
         logger.exception(f"**** error in : call_this_api_for_all_your_answers ***{e}", )

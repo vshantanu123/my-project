@@ -1,8 +1,9 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from app.utils.applogger import application_logger, applogger_graceful_shutdown
+
+from app.utils.applogger import applogger_graceful_shutdown, application_logger
 
 ## cors origins
 origins = ["*"]
@@ -20,7 +21,7 @@ async def life_span(app: FastAPI):
     """
     print("starting my-project application")
 
-    ## initialize application logger from util/applogger.py
+    # ## initialize application logger from util/applogger.py
     await application_logger()
 
     ## yield app
@@ -40,6 +41,8 @@ def initialize_middleware(app):
     :param app:
     :return:
     """
+    print("initializing middleware")
+    print("adding cors middleware")
     app.add_middleware(
         CORSMiddleware,
         allow_origins=origins,

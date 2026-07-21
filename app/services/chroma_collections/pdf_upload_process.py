@@ -11,9 +11,10 @@ from app.utils.applogger import logger
 
 
 def load_pdf_document(full_file_name):
+    upload_dir = get_value_from_key("UPLOADED_DOCS_PATH")
     try:
         logger.info(f"loading pdf document {full_file_name}")
-        pdf_loader = PyPDFLoader(f"./uploaded_documents/{full_file_name}")
+        pdf_loader = PyPDFLoader(f"{upload_dir}{full_file_name}")
         raw_docs = pdf_loader.load()
         logger.info(f"done .... loading pdf document {full_file_name}")
         return raw_docs
@@ -46,7 +47,7 @@ def save_embeddings_chromadb(filename):
             embedding=embedding_model())
     except Exception as e:
         logger.exception(f"error in save embeddings in chroma {e}", )
-        os.remove(f"./uploaded_documents/{filename}")
+        os.remove(f"{upload_dir}{filename}")
         raise HTTPException(status_code=500, detail=f"error in save embedding in chroma")
 
 
